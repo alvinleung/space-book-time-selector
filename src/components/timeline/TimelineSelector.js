@@ -114,7 +114,7 @@ const TimelineSelector = ({
     const currentPos = info.point.y - halfSelectBoxheight;
     // during the selector dragging
     if (window.innerHeight - currentPos < SCROLL_THRESHOLD) {
-      // scroll down
+      // scroll downs
       window.scrollTo(0, window.scrollY + SCROLL_SPEED);
       return;
     }
