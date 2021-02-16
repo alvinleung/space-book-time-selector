@@ -115,13 +115,13 @@ const TimelineSelector = ({
     // during the selector dragging
     if (window.innerHeight - currentPos < SCROLL_THRESHOLD) {
       // scroll downs
-      window.scrollTo(0, window.scrollY + SCROLL_SPEED);
+      setTimeout(window.scrollTo(0, window.scrollY + SCROLL_SPEED), 100);
       return;
     }
 
     if (currentPos < SCROLL_THRESHOLD) {
       // scroll up
-      window.scrollTo(0, window.scrollY - SCROLL_SPEED);
+      setTimeout(window.scrollTo(0, window.scrollY - SCROLL_SPEED), 100);
       return;
     }
   };
