@@ -1,0 +1,43 @@
+.timeline-selector {
+  /* position: relative; */
+
+  background-color: #f2fcfb;
+  color: #19c1b7;
+  border: 2px solid #19c1b7;
+  box-sizing: border-box;
+  border-radius: 8px;
+
+  /* padding */
+  margin-left: 5rem;
+  margin-right: 1rem;
+  padding: 0.5rem;
+}
+
+.timeline-selector__handle {
+  /* layout */
+  position: absolute;
+  top: 0.25rem;
+  left: 8rem;
+  right: 4rem;
+  height: 12px;
+
+  /* colour */
+  background: #19c1b7;
+  border-radius: 24px;
+}
+
+.timeline-selector:hover,
+.timeline-selector__handle:hover {
+  /* cursor */
+  cursor: grab;
+}
+.timeline-selector:active,
+.timeline-selector__handle:active {
+  /* cursor */
+  cursor: grabbing;
+}
+
+.timeline-selector-container {
+  height: 100%;
+  width: 100%;
+}

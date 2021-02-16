@@ -1,0 +1,10 @@
+:root {
+  --clr-primary-darkest: #000;
+  --clr-primary-lightest: #000;
+
+  --clr-text: #000;
+  --clr-bg: #fff;
+
+  --clr-interactive-primary-text: #fff;
+  --clr-interactive-primary-bg: #000;
+}

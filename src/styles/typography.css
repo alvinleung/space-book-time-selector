@@ -1,0 +1,20 @@
+.label {
+  font-family: "HK Grotesk", sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.h4 {
+  /* H4 */
+  font-family: "Source Serif Pro";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 110%;
+
+  /* identical to box height, or 20px */
+  letter-spacing: -0.02em;
+}
