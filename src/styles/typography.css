@@ -18,3 +18,21 @@
   /* identical to box height, or 20px */
   letter-spacing: -0.02em;
 }
+
+html {
+  /* background-color: red; */
+  overflow: hidden;
+  width: 100%;
+}
+
+body {
+  height: 100%;
+  position: fixed;
+  /* prevent overscroll bounce*/
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  /* iOS velocity scrolling */
+  width: 100%;
+  /* margin-left: 25%; */
+  scroll-behavior: smooth;
+}

@@ -1,0 +1,42 @@
+.timeline-selector-scroll-container {
+  position: absolute;
+  top: 0rem;
+  bottom: 0rem;
+}
+
+.timeline-selector-scroll {
+  background-color: rgba(25, 193, 183, 0.1);
+  color: #19c1b7;
+  border: 2px solid #19c1b7;
+  box-sizing: border-box;
+  border-radius: 8px;
+
+  /* layout */
+  position: fixed;
+  right: 1rem;
+  left: 5rem;
+  padding: 0.5rem;
+}
+
+.timeline-selector-scroll__handle {
+  /* layout */
+  position: fixed;
+  /* top: 0.25rem; */
+  left: 8rem;
+  right: 4rem;
+  height: 12px;
+  /* margin-top: 0.5rem; */
+
+  /* colour */
+  background: #19c1b7;
+  border-radius: 24px;
+}
+
+.timeline-selector-scroll__handle:hover {
+  /* cursor */
+  cursor: grab;
+}
+.timeline-selector-scroll__handle:active {
+  /* cursor */
+  cursor: grabbing;
+}

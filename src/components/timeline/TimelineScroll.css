@@ -1,0 +1,39 @@
+.timeline {
+  margin-top: 0rem;
+  margin-bottom: 8rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  position: relative;
+}
+/* different layer */
+.timeline__layer-time {
+  margin-bottom: 800px;
+}
+.timeline__layer-selector {
+  position: absolute;
+  left: 0rem;
+  right: 0rem;
+  top: 0rem;
+  bottom: 0rem;
+}
+
+/* each time  */
+.timeline__time-interval {
+  /* horizontal layout */
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  grid-gap: 1rem;
+
+  /* vertical layout */
+  height: 5rem;
+}
+
+.timeline__hour {
+  text-align: right;
+  margin-top: -0.5em;
+}
+
+.timeline__seperator {
+  /* color */
+  border-top: 1px solid #bbb;
+}

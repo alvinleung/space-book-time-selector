@@ -34,6 +34,7 @@ const TimelineSelector = ({
   // measure the height
   const containerRef = useRef();
   const [isDragging, setIsDragging] = useState(false);
+  const [isScrolling, setIsScrolling] = useState(false);
   const controls = useAnimation();
 
   const selectY = useMotionValue(0);
@@ -102,29 +103,59 @@ const TimelineSelector = ({
     setIsDragging(true);
   };
   const onSelectorDragEnd = (e, info) => {
+    setIsScrolling(false); // clear out all the is scrolling
     setIsDragging(false);
     const halfSelectBoxheight = Math.round(calculateSelectedHeight() / 2);
-    snapToNearestPrecision(info.point.y - halfSelectBoxheight);
+    const dropLocationAbsolute =
+      document.body.scrollTop + info.point.y - halfSelectBoxheight;
+    snapToNearestPrecision(dropLocationAbsolute);
+    // console.log(info.point.y);
   };
 
   const onSelectorDrag = (e, info) => {
     const SCROLL_THRESHOLD = 150;
-    const SCROLL_SPEED = 3;
+    const SCROLL_SPEED = 50;
     const halfSelectBoxheight = Math.round(calculateSelectedHeight() / 2);
     const currentPos = info.point.y - halfSelectBoxheight;
+
     // during the selector dragging
     if (window.innerHeight - currentPos < SCROLL_THRESHOLD) {
+      setIsScrolling(true);
       // scroll downs
-      setTimeout(window.scrollTo(0, window.scrollY + SCROLL_SPEED), 100);
+      // setTimeout(window.scrollTo(0, window.scrollY + SCROLL_SPEED), 100);
+      setTimeout(
+        document.body.scrollBy({
+          top: SCROLL_SPEED,
+          // behavior: "smooth",
+        }),
+        100
+      );
       return;
     }
 
-    if (currentPos < SCROLL_THRESHOLD) {
+    if (currentPos < SCROLL_THRESHOLD && document.body.scrollTop > 0) {
+      setIsScrolling(true);
       // scroll up
-      setTimeout(window.scrollTo(0, window.scrollY - SCROLL_SPEED), 100);
+      // setTimeout(window.scrollTo(0, window.scrollY - SCROLL_SPEED), 100);
+      document.body.scrollBy({
+        top: -SCROLL_SPEED,
+        // behavior: "smooth",
+      });
       return;
     }
   };
+  useEffect(() => {
+    if (isScrolling) {
+      controls.set({
+        position: "fixed",
+        right: "1rem",
+        left: "0rem",
+        top: -document.body.scrollTop + calculateSelectedHeight(),
+      });
+    } else {
+      controls.set({ position: "static" });
+    }
+  }, [isScrolling]);
 
   //
   //
@@ -139,7 +170,6 @@ const TimelineSelector = ({
 
     // update the selector size
     const diffTime = currentDuration;
-    const selectedDuration = toHour(diffTime);
 
     const precisionUnitHeight = calculatePrecisionUnitHeight() * 2;
     const offsetY = info.offset.y + initialSelectHeight; // - selectHeight.get(); //- calculateSelectedHeight();

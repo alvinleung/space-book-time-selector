@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import "./Timeline.css";
+import { motion } from "framer-motion";
+import "./TimelineScroll.css";
 import TimelineSelector from "./TimelineSelector";
 import TimelineSelectorScroll from "./TimelineSelectorScroll";
 
@@ -13,19 +14,21 @@ const Timeline = ({
   // calculate how much hours are there
   const timeList = buildTimeList(hourBegin, hourEnd, true);
 
+  const changeHandler = (startTime, endTime) => {};
+
   return (
     <div className="timeline">
       <div className="timeline__layer-selector">
-        <TimelineSelector
-          hourBegin={hourBegin}
-          hourEnd={hourEnd}
-          onChange={onChange}
-        />
-        {/* <TimelineSelectorScroll
+        {/* <TimelineSelector
           hourBegin={hourBegin}
           hourEnd={hourEnd}
           onChange={onChange}
         /> */}
+        <TimelineSelectorScroll
+          hourBegin={hourBegin}
+          hourEnd={hourEnd}
+          onChange={changeHandler}
+        />
       </div>
       <div className="timeline__layer-time">
         {timeList.map((timeText) => (

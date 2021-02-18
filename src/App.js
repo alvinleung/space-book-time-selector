@@ -1,11 +1,15 @@
 import React from "react";
+import { Router } from "@reach/router";
 import TimeSelectPage from "./components/pages/TimeSelectPage";
 
 const App = () => {
   // app
   return (
     <div>
-      <TimeSelectPage />
+      <Router>
+        <TimeSelectPage path="/" />
+        <TimeSelectPage path="/scroll" />
+      </Router>
     </div>
   );
 };
