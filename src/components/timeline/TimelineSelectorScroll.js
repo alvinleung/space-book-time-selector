@@ -118,10 +118,10 @@ const TimelineSelectorScroll = ({
       if (timer) clearTimeout(timer);
       timer = setTimeout(() => {
         preventFire = true;
-        document.body.scrollTo(
-          0,
-          precisionUnitHeight * (resultDurationHour - 0.5)
-        );
+        document.body.scrollTo({
+          top: precisionUnitHeight * (resultDurationHour - 0.5),
+          behavior: "smooth",
+        });
       }, 100);
     };
     document.body.addEventListener("scroll", handleWindowScroll);

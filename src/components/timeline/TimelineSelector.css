@@ -1,7 +1,7 @@
 .timeline-selector {
   /* position: relative; */
 
-  background-color: #f2fcfb;
+  background-color: rgba(243, 252, 251, 0.5);
   color: #19c1b7;
   border: 2px solid #19c1b7;
   box-sizing: border-box;

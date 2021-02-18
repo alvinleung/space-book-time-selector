@@ -34,5 +34,7 @@ body {
   /* iOS velocity scrolling */
   width: 100%;
   /* margin-left: 25%; */
+}
+* {
   scroll-behavior: smooth;
 }

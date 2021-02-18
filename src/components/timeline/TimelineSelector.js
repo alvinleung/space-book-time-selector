@@ -76,7 +76,7 @@ const TimelineSelector = ({
   }, [currentDuration, currentFrom]);
 
   // correcting precision when drag stop
-  const snapToNearestPrecision = (beginPos) => {
+  const snapToNearestPrecision = (beginPos, scrollOffset) => {
     const precisionUnitHeight = calculatePrecisionUnitHeight();
     const targetPos = getNearestPecision(
       beginPos - containerTop,
@@ -84,6 +84,8 @@ const TimelineSelector = ({
       false
     );
     // correct to nearest position
+    // controls.set({ y: targetPos });
+    if (scrollOffset) controls.set({ y: beginPos + scrollOffset });
     controls.start({
       y: targetPos,
     });
@@ -103,57 +105,79 @@ const TimelineSelector = ({
     setIsDragging(true);
   };
   const onSelectorDragEnd = (e, info) => {
-    setIsScrolling(false); // clear out all the is scrolling
     setIsDragging(false);
+    const _scroll = scrollAmount.current;
+    setIsScrolling(false);
     const halfSelectBoxheight = Math.round(calculateSelectedHeight() / 2);
+    // const dropLocationAbsolute =
+    //   document.body.scrollTop + info.point.y - halfSelectBoxheight;
     const dropLocationAbsolute =
-      document.body.scrollTop + info.point.y - halfSelectBoxheight;
-    snapToNearestPrecision(dropLocationAbsolute);
+      document.body.scrollTop - _scroll + info.point.y - halfSelectBoxheight;
+    snapToNearestPrecision(dropLocationAbsolute, _scroll);
     // console.log(info.point.y);
   };
 
+  const scrollAmount = useRef(0);
   const onSelectorDrag = (e, info) => {
     const SCROLL_THRESHOLD = 150;
     const SCROLL_SPEED = 50;
     const halfSelectBoxheight = Math.round(calculateSelectedHeight() / 2);
     const currentPos = info.point.y - halfSelectBoxheight;
 
-    // during the selector dragging
-    if (window.innerHeight - currentPos < SCROLL_THRESHOLD) {
+    const animateScroll = (direction) => {
       setIsScrolling(true);
+      if (direction === "down") scrollAmount.current -= SCROLL_SPEED / 10;
+      if (direction === "up") scrollAmount.current += SCROLL_SPEED / 10;
+
+      // console.log(scrollAmount.current);
+      const timelineElm = document.querySelector(".timeline__layer-time");
+      timelineElm.style.transform = `translateY(${scrollAmount.current}px)`;
+    };
+
+    const withinScrollDownTrigger =
+      window.innerHeight - currentPos < SCROLL_THRESHOLD;
+    const withinScrollUpTrigger = currentPos < SCROLL_THRESHOLD;
+
+    // during the selector dragging
+    if (
+      withinScrollDownTrigger &&
+      document.body.scrollTop - scrollAmount.current <
+        containerHeight + containerTop
+    ) {
       // scroll downs
       // setTimeout(window.scrollTo(0, window.scrollY + SCROLL_SPEED), 100);
-      setTimeout(
-        document.body.scrollBy({
-          top: SCROLL_SPEED,
-          // behavior: "smooth",
-        }),
-        100
-      );
+      animateScroll("down");
       return;
     }
 
-    if (currentPos < SCROLL_THRESHOLD && document.body.scrollTop > 0) {
-      setIsScrolling(true);
+    if (
+      withinScrollUpTrigger &&
+      document.body.scrollTop > 0 &&
+      document.body.scrollTop - scrollAmount.current > 0
+    ) {
       // scroll up
       // setTimeout(window.scrollTo(0, window.scrollY - SCROLL_SPEED), 100);
-      document.body.scrollBy({
-        top: -SCROLL_SPEED,
-        // behavior: "smooth",
-      });
+      animateScroll("up");
       return;
     }
   };
   useEffect(() => {
     if (isScrolling) {
       controls.set({
-        position: "fixed",
+        // position: "fixed",
         right: "1rem",
         left: "0rem",
-        top: -document.body.scrollTop + calculateSelectedHeight(),
+        // top: -document.body.scrollTop + calculateSelectedHeight() / 2,
       });
     } else {
+      const _scrollOffset = scrollAmount.current;
+      scrollAmount.current = 0; // reset the scroll
       controls.set({ position: "static" });
+      const timelineElm = document.querySelector(".timeline__layer-time");
+      timelineElm.style.transform = `none`;
+      timelineElm.style.zIndex = `-1`;
+      // set the window scroll to that position
+      document.body.scrollBy({ top: -_scrollOffset, behavior: "instant" });
     }
   }, [isScrolling]);
 
